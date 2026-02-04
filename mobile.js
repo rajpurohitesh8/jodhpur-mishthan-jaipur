@@ -1,38 +1,39 @@
 // Mobile-Optimized JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    initMobileApp();
-});
+// Remove duplicate DOMContentLoaded listener
 
-function initMobileApp() {
-    setupMobileNavigation();
-    setupScrollAnimations();
-    setupTouchInteractions();
-    setupMobileCart();
-    setupAuth();
-    setupProductFilters();
-    optimizeForMobile();
-}
-
-// Mobile Navigation
+// Mobile Navigation Fix
 function setupMobileNavigation() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const navLinks = document.querySelector('.nav-links');
     
     if (mobileMenu && navLinks) {
-        mobileMenu.addEventListener('click', () => {
+        mobileMenu.addEventListener('click', (e) => {
+            e.preventDefault();
             navLinks.classList.toggle('active');
-            mobileMenu.innerHTML = navLinks.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
+            
+            // Update hamburger icon
+            if (navLinks.classList.contains('active')) {
+                mobileMenu.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         });
 
         // Close menu when clicking links
         navLinks.querySelectorAll('a').forEach((link, index) => {
             link.parentElement.style.setProperty('--i', index);
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
                 navLinks.classList.remove('active');
                 mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
             });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         });
     }
 }
@@ -109,34 +110,60 @@ function setupTouchInteractions() {
     });
 }
 
-// Mobile Cart
-let cart = [];
-
+// Mobile Cart Fix
 function setupMobileCart() {
     const cartBtn = document.getElementById('cartBtn');
     const cartSidebar = document.getElementById('cartSidebar');
     const closeCart = document.querySelector('.close-cart');
+    const checkoutBtn = document.getElementById('checkoutBtn');
     
-    if (cartBtn) {
-        cartBtn.addEventListener('click', () => {
+    if (cartBtn && cartSidebar) {
+        cartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             cartSidebar.classList.add('open');
         });
     }
     
-    if (closeCart) {
+    if (closeCart && cartSidebar) {
         closeCart.addEventListener('click', () => {
             cartSidebar.classList.remove('open');
+        });
+    }
+    
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                showMobileNotification('Please login to checkout', 'error');
+                cartSidebar.classList.remove('open');
+                document.getElementById('loginModal').style.display = 'block';
+                return;
+            }
+            
+            if (cart.length === 0) {
+                showMobileNotification('Your cart is empty', 'error');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cart = [];
+            updateCartUI();
+            saveCart();
+            cartSidebar.classList.remove('open');
+            showMobileNotification(`Order placed! Total: ₹${total}`, 'success');
         });
     }
 
     // Add to cart functionality
     document.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
             const name = btn.dataset.name;
             const price = parseInt(btn.dataset.price);
             
-            addToCart(name, price);
-            showMobileNotification(`${name} added to cart!`, 'success');
+            if (name && price) {
+                addToCart(name, price);
+                showMobileNotification(`${name} added to cart!`, 'success');
+            }
         });
     });
 
@@ -210,69 +237,89 @@ function loadCart() {
     }
 }
 
-// Authentication
-let users = JSON.parse(localStorage.getItem('users') || '[]');
-let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-
+// Authentication Fix
 function setupAuth() {
     updateLoginButton();
     
     // Login button
-    document.getElementById('loginBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        if (currentUser) {
-            logout();
-        } else {
-            document.getElementById('loginModal').style.display = 'block';
-        }
-    });
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentUser) {
+                logout();
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        });
+    }
     
     // Login form
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = e.target.querySelector('input[type="email"]').value;
-        const password = e.target.querySelector('input[type="password"]').value;
-        
-        if (login(email, password)) {
-            document.getElementById('loginModal').style.display = 'none';
-            e.target.reset();
-            showMobileNotification('Login successful!', 'success');
-        }
-    });
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+            
+            if (login(email, password)) {
+                document.getElementById('loginModal').style.display = 'none';
+                e.target.reset();
+                showMobileNotification('Login successful!', 'success');
+            }
+        });
+    }
     
     // Register form
-    document.getElementById('registerForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = e.target.querySelector('input[type="text"]').value;
-        const email = e.target.querySelector('input[type="email"]').value;
-        const phone = e.target.querySelector('input[type="tel"]').value;
-        const password = e.target.querySelector('input[type="password"]').value;
-        
-        if (register(name, email, phone, password)) {
-            document.getElementById('registerModal').style.display = 'none';
-            e.target.reset();
-            showMobileNotification('Registration successful!', 'success');
-        }
-    });
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = e.target.querySelector('input[type="text"]').value;
+            const email = e.target.querySelector('input[type="email"]').value;
+            const phone = e.target.querySelector('input[type="tel"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+            
+            if (register(name, email, phone, password)) {
+                document.getElementById('registerModal').style.display = 'none';
+                e.target.reset();
+                showMobileNotification('Registration successful!', 'success');
+            }
+        });
+    }
     
     // Modal controls
-    document.getElementById('showRegister').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('registerModal').style.display = 'block';
-    });
+    const showRegister = document.getElementById('showRegister');
+    const showLogin = document.getElementById('showLogin');
     
-    document.getElementById('showLogin').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('registerModal').style.display = 'none';
-        document.getElementById('loginModal').style.display = 'block';
-    });
+    if (showRegister) {
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('registerModal').style.display = 'block';
+        });
+    }
+    
+    if (showLogin) {
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'block';
+        });
+    }
     
     // Close modals
     document.querySelectorAll('.close').forEach(btn => {
         btn.addEventListener('click', () => {
             btn.closest('.modal').style.display = 'none';
         });
+    });
+    
+    // Close modal on outside click
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
     });
 }
 
@@ -320,23 +367,27 @@ function updateLoginButton() {
     }
 }
 
-// Product Filters
+// Product Filters Fix
 function setupProductFilters() {
     const categoryBtns = document.querySelectorAll('.category-btn');
     const productCards = document.querySelectorAll('.product-card');
     
     categoryBtns.forEach((btn, index) => {
         btn.style.setProperty('--i', index);
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all buttons
             categoryBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
             btn.classList.add('active');
             
             const category = btn.dataset.category;
             
-            productCards.forEach(card => {
+            productCards.forEach((card, cardIndex) => {
                 if (category === 'all' || card.dataset.category === category) {
                     card.style.display = 'block';
-                    card.classList.add('animate');
+                    card.style.animation = `slideInUp 0.6s ease ${cardIndex * 0.1}s both`;
                 } else {
                     card.style.display = 'none';
                 }
@@ -414,3 +465,47 @@ window.scrollToSection = function(sectionId) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 };
+// Scroll to Section Fix
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const headerHeight = 70;
+        const targetPosition = section.offsetTop - headerHeight;
+        
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+        
+        // Close mobile menu if open
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (navLinks && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            if (mobileMenu) {
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+    }
+}
+
+// Contact Form Handler
+function setupContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Contact form submitted:', data);
+            e.target.reset();
+            showMobileNotification('Message sent successfully!', 'success');
+        });
+    }
+}
+
+// Initialize all functions
+window.addEventListener('load', () => {
+    setupContactForm();
+});
