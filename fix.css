@@ -1,0 +1,46 @@
+/* Simple Mobile Menu Fix */
+.mobile-menu {
+    display: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: linear-gradient(135deg, #ff6b35, #f7931e);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 2rem;
+        transition: left 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-links.active {
+        left: 0;
+    }
+    
+    .nav-links li {
+        margin: 1rem 0;
+        width: 90%;
+        text-align: center;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        font-size: 18px;
+    }
+}
