@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jodhpur Mishthan - Jaipur</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-container">
+                    <div class="logo-icon">JM</div>
+                    <div class="logo-text">
+                        <h1>Jodhpur Mishthan</h1>
+                        <p>Jaipur - Since 1950</p>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                <li><a href="#" id="cartBtn"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Authentic Rajasthani Sweets & Delicacies</h2>
+            <p>Preserving tradition since 1950 • Premium quality • Fresh daily preparation</p>
+            <div class="hero-buttons">
+                <button class="cta-btn" onclick="scrollToSection('products')">Explore Menu</button>
+                <button class="cta-btn secondary" onclick="scrollToSection('contact')">Order Now</button>
+            </div>
+        </div>
+        <div class="hero-features">
+            <div class="feature">
+                <i class="fas fa-truck"></i>
+                <span>Free Home Delivery</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-clock"></i>
+                <span>Made Fresh Daily</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-star"></i>
+                <span>70+ Years Legacy</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2>Our Premium Collection</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: #666; font-size: 1.1rem;">Handcrafted with love using traditional recipes and finest ingredients</p>
+        <div class="product-categories">
+            <button class="category-btn active" data-category="all">All Items</button>
+            <button class="category-btn" data-category="sweets">Traditional Sweets</button>
+            <button class="category-btn" data-category="snacks">Fresh Snacks</button>
+            <button class="category-btn" data-category="special">Festival Specials</button>
+        </div>
+        <div class="product-grid">
+            <!-- Sweets -->
+            <div class="product-card" data-category="sweets">
+                <img src="public/Shahi-Tukda-Recipe-7.jpg" alt="Shahi Tukda">
+                <h3>Shahi Tukda</h3>
+                <p class="price">₹350/kg</p>
+                <button class="add-to-cart" data-name="Shahi Tukda" data-price="350">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="sweets">
+                <img src="public/Milk_Khoa-150x150.webp" alt="Milk Khoa">
+                <h3>Milk Khoa</h3>
+                <p class="price">₹280/kg</p>
+                <button class="add-to-cart" data-name="Milk Khoa" data-price="280">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="sweets">
+                <img src="public/Chandrakala3_kesar_badam_12eb7ea-150x150.webp" alt="Kesar Badam Chandrakala">
+                <h3>Kesar Badam Chandrakala</h3>
+                <p class="price">₹420/kg</p>
+                <button class="add-to-cart" data-name="Kesar Badam Chandrakala" data-price="420">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="sweets">
+                <img src="public/Shahi-Tukda-Recipe-7.jpg" alt="Jalebi">
+                <h3>Fresh Jalebi</h3>
+                <p class="price">₹250/kg</p>
+                <button class="add-to-cart" data-name="Fresh Jalebi" data-price="250">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="sweets">
+                <img src="public/IMG_0298-removebg-preview.png" alt="Special Mithai">
+                <h3>Special Mithai</h3>
+                <p class="price">₹400/kg</p>
+                <button class="add-to-cart" data-name="Special Mithai" data-price="400">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="sweets">
+                <img src="public/White-And-Brown-Modern-Customized-Cookie-Gift-Boxes-Banner-1-scaled.png" alt="Gift Box Sweets">
+                <h3>Premium Gift Box</h3>
+                <p class="price">₹580/box</p>
+                <button class="add-to-cart" data-name="Premium Gift Box" data-price="580">Add to Cart</button>
+            </div>
+            
+            <!-- Snacks -->
+            <div class="product-card" data-category="snacks">
+                <img src="public/festival-sweets-snacks-western-india-zishta_2569b027-a214-4276-abb8-8081d0901453_480x480-150x150.webp" alt="Festival Snacks">
+                <h3>Festival Snacks Mix</h3>
+                <p class="price">₹180/kg</p>
+                <button class="add-to-cart" data-name="Festival Snacks Mix" data-price="180">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="snacks">
+                <img src="public/Milk_Khoa-150x150.webp" alt="Samosa">
+                <h3>Fresh Samosa</h3>
+                <p class="price">₹150/kg</p>
+                <button class="add-to-cart" data-name="Fresh Samosa" data-price="150">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="snacks">
+                <img src="public/Chandrakala3_kesar_badam_12eb7ea-150x150.webp" alt="Pyaaz Kachori">
+                <h3>Pyaaz Kachori</h3>
+                <p class="price">₹200/kg</p>
+                <button class="add-to-cart" data-name="Pyaaz Kachori" data-price="200">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="snacks">
+                <img src="public/IMG_0298-removebg-preview.png" alt="Mirchi Bada">
+                <h3>Mirchi Bada</h3>
+                <p class="price">₹220/kg</p>
+                <button class="add-to-cart" data-name="Mirchi Bada" data-price="220">Add to Cart</button>
+            </div>
+            
+            <!-- Festival Special -->
+            <div class="product-card" data-category="special">
+                <img src="public/Red-and-Beige-Geometrical-Photo-Collage-Food-Medium-Banner-scaled.png" alt="Festival Special Combo">
+                <h3>Festival Special Combo</h3>
+                <p class="price">₹650/box</p>
+                <button class="add-to-cart" data-name="Festival Special Combo" data-price="650">Add to Cart</button>
+            </div>
+            <div class="product-card" data-category="special">
+                <img src="public/White-And-Brown-Modern-Customized-Cookie-Gift-Boxes-Banner-1-scaled.png" alt="Premium Festival Box">
+                <h3>Premium Festival Box</h3>
+                <p class="price">₹850/box</p>
+                <button class="add-to-cart" data-name="Premium Festival Box" data-price="850">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <h2>Taste the Tradition</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: #666; font-size: 1.1rem;">A visual journey through our authentic Rajasthani delicacies</p>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="public/Shahi-Tukda-Recipe-7.jpg" alt="Shahi Tukda - Royal Dessert">
+                <div class="gallery-overlay">
+                    <h4>Shahi Tukda</h4>
+                    <p>Royal Bread Pudding</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="public/Milk_Khoa-150x150.webp" alt="Fresh Milk Khoa">
+                <div class="gallery-overlay">
+                    <h4>Milk Khoa</h4>
+                    <p>Pure & Fresh</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="public/Chandrakala3_kesar_badam_12eb7ea-150x150.webp" alt="Kesar Badam Chandrakala">
+                <div class="gallery-overlay">
+                    <h4>Kesar Badam</h4>
+                    <p>Premium Chandrakala</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="public/festival-sweets-snacks-western-india-zishta_2569b027-a214-4276-abb8-8081d0901453_480x480-150x150.webp" alt="Festival Snacks Collection">
+                <div class="gallery-overlay">
+                    <h4>Festival Mix</h4>
+                    <p>Celebration Special</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="public/IMG_0298-removebg-preview.png" alt="Special Mithai Varieties">
+                <div class="gallery-overlay">
+                    <h4>Special Mithai</h4>
+                    <p>House Specialty</p>
+                </div>
+            </div>
+        </div>
+        <div class="banner-images">
+            <img src="public/Red-and-Beige-Geometrical-Photo-Collage-Food-Medium-Banner-scaled.png" alt="Festival Special Collection" class="banner-image">
+            <img src="public/White-And-Brown-Modern-Customized-Cookie-Gift-Boxes-Banner-1-scaled.png" alt="Premium Gift Boxes" class="banner-image">
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-birthday-cake"></i>
+                <h3>Custom Orders</h3>
+                <p>Special sweets for weddings, festivals, and celebrations</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-truck"></i>
+                <h3>Home Delivery</h3>
+                <p>Free delivery within 5km radius in Jaipur</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-gift"></i>
+                <h3>Gift Packaging</h3>
+                <p>Beautiful gift boxes for festivals and special occasions</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-clock"></i>
+                <h3>Fresh Daily</h3>
+                <p>All sweets and snacks made fresh every morning</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>Our Heritage Story</h2>
+            <p>For over seven decades, Jodhpur Mishthan has been the epitome of authentic Rajasthani cuisine. Founded in 1950 in the royal city of Jodhpur, we have preserved age-old recipes passed down through generations. Now established in the Pink City of Jaipur, we continue to serve the finest traditional sweets and snacks, made with pure ingredients and crafted with the same passion that started our journey.</p>
+            <div class="about-stats" style="display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">70+</h3>
+                    <p style="margin: 0;">Years of Excellence</p>
+                </div>
+                <div style="text-align: center;">
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">50+</h3>
+                    <p style="margin: 0;">Varieties Available</p>
+                </div>
+                <div style="text-align: center;">
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">1000+</h3>
+                    <p style="margin: 0;">Happy Customers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Address</h3>
+                    <p>Jodhpur Mishthan Bhandar<br>Lakshminagar, Jaipur, Rajasthan</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <h3>Phone</h3>
+                    <p>+91 7665061362</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>Hours</h3>
+                    <p>Mon-Sun: 7:00 AM - 11:00 PM<br>Festival Days: 6:00 AM - 12:00 AM</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>hiteshsinghr274@gmail.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-user"></i>
+                    <h3>Owner</h3>
+                    <p>Mahesh Singh Rajpurohit</p>
+                </div>
+            </div>
+            <div class="contact-map">
+                <h3>Find Us Here</h3>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.0123456789!2d75.8!3d26.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDU0JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="300" 
+                        style="border:0;border-radius:10px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="shop-image">
+                    <img src="public/unnamed.webp" alt="Jodhpur Mishthan Shop - Lakshminagar Jaipur" style="width:100%;height:200px;object-fit:cover;border-radius:10px;margin-top:1rem;">
+                    <p style="text-align:center;margin-top:0.5rem;color:#666;font-size:0.9rem;">Our Outlet - Lakshminagar, Jaipur</p>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart">&times;</span>
+        </div>
+        <div id="cartItems" class="cart-items">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: ₹<span id="cartTotal">0</span></strong>
+            </div>
+            <button id="checkoutBtn" class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Jodhpur Mishthan</h3>
+                <p>Serving authentic Rajasthani sweets since 1950</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-phone"></i> +91 7665061362</p>
+                <p><i class="fas fa-envelope"></i> hiteshsinghr274@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Lakshminagar, Jaipur</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Jodhpur Mishthan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script-new.js"></script>
+</body>
+</html>
