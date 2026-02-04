@@ -502,29 +502,34 @@
 
     <script src="simple.js"></script>
     <script>
-        // Simple Mobile Menu - Guaranteed to Work
+        // Bulletproof Mobile Menu
         function toggleMobileMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const icon = mobileMenu.querySelector('i');
-            
-            if (navLinks.style.left === '0px') {
-                navLinks.style.left = '-100%';
-                icon.className = 'fas fa-bars';
+            const menu = document.getElementById('mobileNavMenu');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+                document.querySelector('.mobile-menu i').className = 'fas fa-bars';
             } else {
-                navLinks.style.left = '0px';
-                icon.className = 'fas fa-times';
+                menu.style.display = 'flex';
+                document.querySelector('.mobile-menu i').className = 'fas fa-times';
             }
         }
         
-        function closeMobileMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const icon = mobileMenu.querySelector('i');
-            
-            navLinks.style.left = '-100%';
-            icon.className = 'fas fa-bars';
+        function closeMenu() {
+            document.getElementById('mobileNavMenu').style.display = 'none';
+            document.querySelector('.mobile-menu i').className = 'fas fa-bars';
         }
     </script>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobileNavMenu" style="display:none;position:fixed;top:70px;left:0;width:100%;height:calc(100vh-70px);background:linear-gradient(135deg,#ff6b35,#f7931e);z-index:999;flex-direction:column;align-items:center;padding-top:2rem;">
+        <a href="#home" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">🏠 Home</a>
+        <a href="#products" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">🍯 Products</a>
+        <a href="#gallery" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">📸 Gallery</a>
+        <a href="#services" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">⚡ Services</a>
+        <a href="#about" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">ℹ️ About</a>
+        <a href="#contact" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">📞 Contact</a>
+        <a href="#" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">👤 Login</a>
+        <a href="#" onclick="closeMenu()" style="display:block;width:90%;padding:18px 25px;margin:8px 0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;color:white;text-decoration:none;font-weight:600;text-align:center;font-size:1.1rem;">🛒 Cart</a>
+    </div>
 </body>
 </html>
