@@ -603,3 +603,173 @@ document.addEventListener('DOMContentLoaded', function() {
     initTouchGestures();
     optimizePerformance();
 });
+// Mobile-Specific Enhancements
+function initMobileEnhancements() {
+    // Add touch feedback to buttons
+    document.querySelectorAll('.cta-btn, .add-to-cart, .category-btn').forEach(btn => {
+        btn.classList.add('touch-feedback', 'haptic-feedback');
+    });
+    
+    // Mobile swipe gestures for product cards
+    let startX, startY, currentX, currentY;
+    
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('touchstart', e => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+        
+        card.addEventListener('touchmove', e => {
+            if (!startX || !startY) return;
+            
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+            
+            const diffX = startX - currentX;
+            const diffY = startY - currentY;
+            
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 50) {
+                    // Swipe left - add to cart
+                    card.style.transform = 'translateX(-20px)';
+                    card.style.backgroundColor = '#e8f5e8';
+                } else if (diffX < -50) {
+                    // Swipe right - view details
+                    card.style.transform = 'translateX(20px)';
+                    card.style.backgroundColor = '#fff3e0';
+                }
+            }
+        });
+        
+        card.addEventListener('touchend', () => {
+            card.style.transform = '';
+            card.style.backgroundColor = '';
+            startX = startY = null;
+        });
+    });
+    
+    // Mobile pull-to-refresh simulation
+    let pullStart = 0;
+    let pullCurrent = 0;
+    
+    document.addEventListener('touchstart', e => {
+        pullStart = e.touches[0].screenY;
+    });
+    
+    document.addEventListener('touchmove', e => {
+        pullCurrent = e.touches[0].screenY;
+        if (pullCurrent - pullStart > 100 && window.scrollY === 0) {
+            document.body.style.transform = 'translateY(20px)';
+            document.body.style.transition = 'transform 0.3s';
+        }
+    });
+    
+    document.addEventListener('touchend', () => {
+        if (pullCurrent - pullStart > 100 && window.scrollY === 0) {
+            // Simulate refresh
+            showMobileNotification('Refreshing...', 'info');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+        document.body.style.transform = '';
+        pullStart = pullCurrent = 0;
+    });
+    
+    // Mobile-optimized cart
+    const cartBtn = document.getElementById('cartBtn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.style.animation = 'slideInFromBottom 0.4s ease-out';
+        });
+    }
+    
+    // Mobile keyboard handling
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            setTimeout(() => {
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    });
+}
+
+// Mobile notification system
+function showMobileNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `mobile-notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span>${message}</span>
+            <div class="mobile-loading"></div>
+        </div>
+    `;
+    
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '100px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8',
+        color: 'white',
+        padding: '1rem 2rem',
+        borderRadius: '25px',
+        zIndex: '3000',
+        animation: 'bounceInUp 0.5s ease-out',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+        backdropFilter: 'blur(10px)'
+    });
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.3s ease-out forwards';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Mobile performance optimization
+function optimizeMobilePerformance() {
+    // Reduce animations on low-end devices
+    if (navigator.hardwareConcurrency <= 2) {
+        document.documentElement.style.setProperty('--animation-duration', '0.3s');
+    }
+    
+    // Optimize images for mobile
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        if (window.innerWidth <= 768) {
+            img.loading = 'lazy';
+            img.style.willChange = 'transform';
+        }
+    });
+    
+    // Mobile-specific event listeners
+    document.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 100);
+    });
+}
+
+// Initialize mobile enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) {
+        initMobileEnhancements();
+        optimizeMobilePerformance();
+        
+        // Add swipe indicator
+        const swipeIndicator = document.createElement('div');
+        swipeIndicator.className = 'swipe-indicator';
+        swipeIndicator.textContent = '← Swipe cards to interact →';
+        document.body.appendChild(swipeIndicator);
+        
+        setTimeout(() => {
+            swipeIndicator.remove();
+        }, 5000);
+    }
+});
