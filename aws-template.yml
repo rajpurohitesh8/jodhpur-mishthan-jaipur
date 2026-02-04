@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Static website hosting for Jodhpur Mishthan'
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: jodhpur-mishthan-website
+    Description: Name of the S3 bucket for hosting
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub '${S3Bucket}/*'
+
+Outputs:
+  WebsiteURL:
+    Description: URL of the website
+    Value: !GetAtt S3Bucket.WebsiteURL
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref S3Bucket

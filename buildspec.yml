@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  pre_build:
+    commands:
+      - echo Build started on `date`
+  build:
+    commands:
+      - echo Build completed on `date`
+  post_build:
+    commands:
+      - echo Post build completed on `date`
+
+artifacts:
+  files:
+    - '**/*'
+  name: jodhpur-mishthan-website
