@@ -507,3 +507,99 @@ function addLoadingAnimation() {
         document.body.style.opacity = '1';
     });
 }
+// Enhanced Scroll Animations
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, observerOptions);
+
+    // Add scroll animation class to elements
+    document.querySelectorAll('.product-card, .service-card, .gallery-item').forEach(el => {
+        el.classList.add('scroll-animate');
+        observer.observe(el);
+    });
+}
+
+// Mobile Menu Enhancement
+function enhanceMobileMenu() {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (mobileMenu && navLinks) {
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenu.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when clicking on links
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+    }
+}
+
+// Touch Gestures for Mobile
+function initTouchGestures() {
+    let startX, startY, distX, distY;
+    const threshold = 150;
+    const restraint = 100;
+    
+    document.addEventListener('touchstart', e => {
+        startX = e.changedTouches[0].pageX;
+        startY = e.changedTouches[0].pageY;
+    });
+    
+    document.addEventListener('touchend', e => {
+        distX = e.changedTouches[0].pageX - startX;
+        distY = e.changedTouches[0].pageY - startY;
+        
+        if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
+            if (distX > 0) {
+                // Swipe right - close cart if open
+                document.getElementById('cartSidebar').classList.remove('open');
+            } else {
+                // Swipe left - could open cart or navigate
+            }
+        }
+    });
+}
+
+// Performance Optimization
+function optimizePerformance() {
+    // Lazy load images
+    const images = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// Initialize all enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    initScrollAnimations();
+    enhanceMobileMenu();
+    initTouchGestures();
+    optimizePerformance();
+});
