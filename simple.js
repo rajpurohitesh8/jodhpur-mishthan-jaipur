@@ -1,21 +1,40 @@
 // Simple Working JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu
+    // Mobile Menu - Fixed
     const mobileMenu = document.querySelector('.mobile-menu');
     const navLinks = document.querySelector('.nav-links');
     
     if (mobileMenu && navLinks) {
-        mobileMenu.addEventListener('click', function() {
+        mobileMenu.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             navLinks.classList.toggle('active');
-            this.innerHTML = navLinks.classList.contains('active') ? '✕' : '☰';
+            
+            // Change icon
+            const icon = this.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
         });
         
         // Close menu on link click
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function() {
                 navLinks.classList.remove('active');
-                mobileMenu.innerHTML = '☰';
+                const icon = mobileMenu.querySelector('i');
+                icon.className = 'fas fa-bars';
             });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                icon.className = 'fas fa-bars';
+            }
         });
     }
     
