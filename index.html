@@ -70,27 +70,78 @@
     </header>
 
     <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+            <div class="floating-elements">
+                <div class="float-element">🍯</div>
+                <div class="float-element">🥮</div>
+                <div class="float-element">🧁</div>
+                <div class="float-element">🍰</div>
+                <div class="float-element">🎂</div>
+            </div>
+        </div>
         <div class="hero-content">
-            <h2>Authentic Rajasthani Sweets & Delicacies</h2>
-            <p>Preserving tradition since 1950 • Premium quality • Fresh daily preparation</p>
+            <div class="hero-badge">
+                <span class="badge-text">Since 1950</span>
+            </div>
+            <h2 class="hero-title">
+                <span class="title-line">Authentic Rajasthani</span>
+                <span class="title-line highlight">Sweets & Delicacies</span>
+            </h2>
+            <p class="hero-subtitle">
+                <span class="subtitle-icon">✨</span>
+                Preserving tradition • Premium quality • Fresh daily preparation
+                <span class="subtitle-icon">✨</span>
+            </p>
             <div class="hero-buttons">
-                <button class="cta-btn" onclick="scrollToSection('products')">Explore Menu</button>
-                <button class="cta-btn secondary" onclick="scrollToSection('contact')">Order Now</button>
+                <button class="cta-btn primary" onclick="scrollToSection('products')">
+                    <span class="btn-text">Explore Menu</span>
+                    <span class="btn-icon">🍽️</span>
+                </button>
+                <button class="cta-btn secondary" onclick="scrollToSection('contact')">
+                    <span class="btn-text">Order Now</span>
+                    <span class="btn-icon">📞</span>
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">70+</div>
+                    <div class="stat-label">Years Legacy</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Varieties</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
             </div>
         </div>
         <div class="hero-features">
-            <div class="feature">
-                <i class="fas fa-truck"></i>
-                <span>Free Home Delivery</span>
+            <div class="feature premium-feature">
+                <div class="feature-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <span class="feature-text">Free Home Delivery</span>
             </div>
-            <div class="feature">
-                <i class="fas fa-clock"></i>
-                <span>Made Fresh Daily</span>
+            <div class="feature premium-feature">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <span class="feature-text">Made Fresh Daily</span>
             </div>
-            <div class="feature">
-                <i class="fas fa-star"></i>
-                <span>70+ Years Legacy</span>
+            <div class="feature premium-feature">
+                <div class="feature-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <span class="feature-text">Premium Quality</span>
             </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
         </div>
     </section>
 
