@@ -9,6 +9,7 @@
     <title>Jodhpur Mishthan - Jaipur</title>
     <link rel="stylesheet" href="mobile.css">
     <style>
+        /* Critical Mobile Menu Styles */
         @media (max-width: 768px) {
             .mobile-menu {
                 display: flex !important;
@@ -16,42 +17,67 @@
                 justify-content: center;
                 width: 50px;
                 height: 50px;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255,255,255,0.2);
+                border: 2px solid rgba(255,255,255,0.3);
                 border-radius: 8px;
                 cursor: pointer;
                 color: white;
                 font-size: 1.5rem;
+                position: relative;
+                z-index: 1001;
+            }
+            .mobile-menu:hover {
+                background: rgba(255,255,255,0.3);
             }
             .nav-links {
-                position: fixed;
+                position: fixed !important;
                 top: 70px;
                 left: -100%;
                 width: 100%;
                 height: calc(100vh - 70px);
                 background: linear-gradient(135deg, #ff6b35, #f7931e);
-                flex-direction: column;
+                flex-direction: column !important;
                 padding-top: 2rem;
                 transition: left 0.3s ease;
                 z-index: 999;
+                list-style: none;
+                margin: 0;
+                display: flex !important;
             }
             .nav-links.active {
-                left: 0;
+                left: 0 !important;
             }
             .nav-links li {
                 width: 90%;
-                margin: 0.5rem 0;
+                margin: 0.5rem auto;
+                list-style: none;
             }
             .nav-links a {
-                display: block;
+                display: block !important;
                 padding: 15px 20px;
                 background: rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.2);
                 border-radius: 10px;
                 margin-bottom: 0.5rem;
+                color: white !important;
+                text-decoration: none;
+                font-weight: 500;
+                text-align: center;
+            }
+            .nav-links a:hover {
+                background: rgba(255,255,255,0.2);
             }
         }
         @media (min-width: 769px) {
             .mobile-menu { display: none !important; }
-            .nav-links { position: static !important; flex-direction: row !important; }
+            .nav-links { 
+                position: static !important; 
+                flex-direction: row !important;
+                left: 0 !important;
+                height: auto !important;
+                background: none !important;
+                padding: 0 !important;
+            }
         }
     </style>
     <script src="auth.js"></script>
@@ -478,28 +504,60 @@
 
     <script src="simple.js"></script>
     <script>
-        // Mobile Menu Fix
+        // Enhanced Mobile Menu Fix
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Mobile menu script loaded');
+            
             const mobileMenu = document.querySelector('.mobile-menu');
             const navLinks = document.querySelector('.nav-links');
             
+            console.log('Mobile menu element:', mobileMenu);
+            console.log('Nav links element:', navLinks);
+            
             if (mobileMenu && navLinks) {
-                mobileMenu.addEventListener('click', function() {
+                // Add click event to mobile menu
+                mobileMenu.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('Mobile menu clicked');
+                    
                     navLinks.classList.toggle('active');
                     const icon = this.querySelector('i');
+                    
                     if (navLinks.classList.contains('active')) {
                         icon.className = 'fas fa-times';
+                        console.log('Menu opened');
                     } else {
                         icon.className = 'fas fa-bars';
+                        console.log('Menu closed');
                     }
                 });
                 
+                // Close menu when clicking on links
                 navLinks.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', function() {
                         navLinks.classList.remove('active');
-                        mobileMenu.querySelector('i').className = 'fas fa-bars';
+                        const icon = mobileMenu.querySelector('i');
+                        if (icon) {
+                            icon.className = 'fas fa-bars';
+                        }
+                        console.log('Menu closed via link click');
                     });
                 });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        const icon = mobileMenu.querySelector('i');
+                        if (icon) {
+                            icon.className = 'fas fa-bars';
+                        }
+                    }
+                });
+            } else {
+                console.error('Mobile menu or nav links not found');
             }
         });
     </script>
